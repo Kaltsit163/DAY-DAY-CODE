@@ -76,14 +76,58 @@ Function.prototype.bind2 = function () {
 
 ```javascript
 
-const app = {
-    name: 'app',
-    getName(version) {
-        console.log(this.name + ':' + version)
-    }
+let app = {
+  name: 'app',
+  getName(data) {
+    console.log(this.name + ' has: ' + data);
+  }
 };
 
-app.getName.bind2.call(app.getName, { name: 'hello' }, '???')(1.1);
+Function.prototype.bind2 = function () {
+  var fn = this;
+  var argsParent = [...arguments];
+  return function () {
+      fn.call(...argsParent);
+  };
+}
+
+app.getName(1); // app has: 1 
+
+app.getName.bind2({ name: "hello" })(2); // hello has: undefined 
+
+app.getName.bind({ name: "hello" })(3); // hello has: 3 
 
 ```
-仔细看看，返回的是函数，那么新返回的函数如何传参呢？
+仔细看看，这个猴版的bind2，`执行上下文`是绑定对了，然而参数没了，返回的参数，再传递参数，简直没办法传参数；
+这里其实就是第三个特征，返回的参数，还可以传参数，继续执行；
+
+```javascript
+
+  return function () {
+      fn.call(...argsParent);
+      // 这里其实非常关键，这里的参数，其实是外部作用域的 arguments
+      // 根本获取返回函数的arguments，这里其实就需要加一行
+  };
+
+
+  return function () {
+      fn.call(...argsParent, ...arguments);
+      // 这里的arguments 是返回函数的arguments，不是外部的，SO
+  };
+
+```
+
+---
+现在让我们康康完整版的 bind2
+
+```javascript
+
+Function.prototype.bind2 = function () {
+    var fn = this;
+    var argsParent = [...arguments];
+    return function () {
+        fn.call(...argsParent, ...arguments);
+    };
+}
+
+```
