@@ -13,6 +13,8 @@ Function.prototype.bind2 = function () {
     };
 }
 
-app.getName.bind2({ name: 'hello' }, 1, 1)(2.2);
+app.getName(1.1);
 
-app.getName.bind2.call(app.getName, { name: 'hello' }, 1.1)(2.2);
+app.getName.bind({ name: 'hello' }, 1.1)();
+
+// app.getName.bind2.call(app.getName, { name: 'hello' }, 1.1)(2.2);
