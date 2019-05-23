@@ -1,18 +1,17 @@
 const app = {
-    version: '1.0.0',
-    getVersion() {
-        console.log(this)
+    name: 'app',
+    getName() {
+        console.log(this.name)
     }
 };
 
-app.getVersion();
+app.getName();
 
-app.getVersion.call({ version: '1.2.0' });
+app.getName.call({ name: 'hello' });
 
-
-// Function.prototype.call2 = function (context = window, ...args) {
-//     context.fn = this;
-//     const result = context.fn(...args)
-//     delete context.fn;
-//     return result;
-// }
+Function.prototype.call2 = function (context = window, ...args) {
+    context.fn = this;
+    const result = context.fn(...args)
+    delete context.fn;
+    return result;
+}
