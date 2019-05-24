@@ -27,10 +27,13 @@ app.getName.call({ name: 'hello' }); // hello
 ``` javascript
 Function.prototype.call2 = function (context = window, ...args) {
     // 因为传入得context，有可能真的就是undefined，只不过在浏览器会兼容成 window
+    // 这里也需要去兼容一下
     context.fn = this;
     // 此时的this，就是执行环境，也就是context.fn 中 fn 的函数体
     const result = context.fn(...args)
     delete context.fn;
+    // 因为JS的数据的引用问题，这里还是得删掉
     return result;
+    // 最后返回使用新上下文中执行后的执行结果
 }
 ```
