@@ -1,4 +1,6 @@
-function deb (fn, time) {
+const debonce = (fn, time) => {
+    // 1. 执行的时机，永远在最后一次触发的 + time 时
+    // 永远只看最后一次的，延迟满足，
     let timer = null;
     return function () {
         if (timer) {
@@ -6,20 +8,21 @@ function deb (fn, time) {
         }
         timer = setTimeout(() => {
             fn.apply(this, arguments)
-        }, time); 
+        }, time);
     }
 }
 
-function throttle (fn, time) {
-    let mark = true;
+const thorttle = (fn ,time) => {
+    // 贤者时间
+    let lock = false;
     return function () {
-        if (!mask) {
-            return
+        if (lock) {
+            return false;
         }
-        mark = false;
+        lock = true;
         setTimeout(() => {
             fn.apply(this, arguments);
-            mark = true;
+            lock = true;
         }, time);
     }
 }
