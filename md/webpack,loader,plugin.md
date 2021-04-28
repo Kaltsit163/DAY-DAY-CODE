@@ -20,3 +20,15 @@ webpack 把代码编译成了什么？
 # plugin 机制
 
 在 Webpack 运行的生命周期中会广播出许多事件，Plugin 可以监听这些事件，在合适的时机通过 Webpack 提供的 API 改变输出结果。plugin是一个扩展器，在webpack打包的过程中，基于事件驱动的机制，监听webpack打包过程中的某些节点，从而执行广泛的任务。
+
+
+class New {
+  construcotr () {}
+  apply (compiler) {
+    compiler.hooks.emit.tap('ReadmeWebpackPlugin', (compilation, cb) => {
+
+    })
+  }
+}
+
+class 插件名
