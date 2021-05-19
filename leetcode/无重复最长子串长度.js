@@ -1,16 +1,22 @@
-const findLongestSubString = (str) => {
-	let arr = [];
+const findLongestSubString2 = (str) => {
+	let hashMap = {};
 	let max = 0;
 	for (let i = 0; i < str.length; i ++) {
-		let index = arr.indexOf(str[i]);
-		if (index >= 0) {
-			arr.splice(0, index + 1);
+		const cur = str[i];
+		if (hashMap[cur]) {
+			max = Math.max(max, i - hashMap[cur]);
+		} else {
+			max = i;
 		}
-		arr.push(0, index + 1);
-		max = Math.max(arr.length + 1);
+		hashMap[cur] = i;
 	}
-	return max
+	return max;
 }
+
+let ss = "pwwkew";
+
+
+console.log(findLongestSubString2(ss))
 
 
 
