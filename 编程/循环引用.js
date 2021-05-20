@@ -1,13 +1,3 @@
-const isCyclicV1 = (originObj) => {
-  let rs = "";
-  try {
-    JSON.stringify(originObj);
-  } catch (err) {
-    rs = err;
-  }
-  return rs.toString().indexOf("circular") === -1 ? false : true;
-};
-
 function isCyclic(o) {
   /* 代码实现 */
   var objAry = [];
