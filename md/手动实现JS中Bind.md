@@ -127,3 +127,13 @@ Function.prototype.bind2 = function () {
   };
 };
 ```
+
+```javascript
+Function.prototype.bind2 = function () {
+	var fn = this;
+	var args1 = [...arguments];
+	return function () {
+		fn.call(args1, ...arguments);
+	}
+}
+```
