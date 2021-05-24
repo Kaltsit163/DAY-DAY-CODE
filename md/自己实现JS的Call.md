@@ -37,3 +37,30 @@ Function.prototype.call2 = function (context = window, ...args) {
     // 最后返回使用新上下文中执行后的执行结果
 }
 ```
+
+
+call 调用时，改变ctx
+
+```javascript
+
+Function.prototype.call2 = function (ctx = window, ...args) {
+	ctx.fn = 
+
+}
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

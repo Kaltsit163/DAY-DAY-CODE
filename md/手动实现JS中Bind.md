@@ -137,3 +137,16 @@ Function.prototype.bind2 = function () {
 	}
 }
 ```
+
+
+```javascript
+
+Function.prototype.bind2 = function () {
+  let fn = this;
+  let agrs1 = [...arguments]; // 之前的老arguments + 也就是新传入的 this
+  return function () {
+    fn.call(agrs1, ...arguments) // 这里重新使用 args1 中传入的 this，去替换，然后加上新的 arguments
+  }
+}
+
+```
