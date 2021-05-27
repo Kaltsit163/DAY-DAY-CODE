@@ -1,68 +1,64 @@
-function _LazyMan(name) {
-    this.tasks = [];   
-    var self = this;
-
-    var fn =(function(n){
-        var name = n;
-        return function(){
-            console.log("Hi! This is " + name + "!");
-            self.next();
-        }
-    })(name);
-    this.tasks.push(fn);
-    setTimeout(function(){
-        self.next();
-    }, 0); // 在下一个事件循环启动任务
+function human(name) {
+  return new Human(name);
 }
 
-/* 事件调度函数 */
-_LazyMan.prototype.next = function() { 
-    var fn = this.tasks.shift();
-    fn && fn();
+function Human(name) {
+  this.name = name;
+  this.queue = Promise.resolve();
 }
 
-_LazyMan.prototype.eat = function(name) {
-    var self = this;
-    var fn =(function(name){
-        return function(){
-            console.log("Eat " + name + "~");
-            self.next()
-        }
-    })(name);
-    this.tasks.push(fn);
-    return this; // 实现链式调用
-}
+Human.prototype.sayHello = function () {
+	this.queue = this.queue.then(() => {
+    return new Promise(resolve => {
+      console.log(`I am ${this.name}`);
+      resolve();
+    });
+  });
+  return this;
+};
 
-_LazyMan.prototype.sleep = function(time) {
-    var self = this;
-    var fn = (function(time){
-        return function() {
-            setTimeout(function(){
-                console.log("Wake up after " + time + "s!");
-                self.next();
-            }, time * 1000);
-        }
-    })(time);
-    this.tasks.push(fn);
-   return this;
-}
+Human.prototype.eat = function (food) {
+  this.queue = this.queue.then(() => {
+    return new Promise(resolve => {
+      console.log('Eat: ' + food);
+      resolve();
+    });
+  });
+  return this;
+};
 
-_LazyMan.prototype.sleepFirst = function(time) {
-    var self = this;
-    var fn = (function(time) {
-        return function() {
-            setTimeout(function() {
-                console.log("Wake up after " + time + "s!");
-                self.next();
-            }, time * 1000);
-        }
-    })(time);
+Human.prototype.sleep = function (time) {
+  this.queue = this.queue.then(() => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        console.log(`Sleep ${time}s`);
+        resolve();
+      }, time * 1000);
+    });
+  });
+  return this;
+};
 
-    this.tasks.unshift(fn);
-    return this;
-}
+Human.prototype.go = function () {
+  this.queue = this.queue.then(() => {
+    return new Promise(resolve => {
+      console.log('Go');
+      resolve();
+    });
+  });
+  return this;
+};
 
-/* 封装 */
-function LazyMan(name){
-    return new _LazyMan(name);
-}
+Human.prototype.rest = function (time) {
+  this.queue = this.queue.then(() => {
+    return new Promise(resolve => {
+      setTimeout(() => {
+        console.log(`Rest ${time}s`);
+        resolve();
+      }, time * 1000);
+    });
+  });
+  return this;
+};
+
+human('Jack').sayHello().eat('APPLE').sleep(5).go().rest(10);

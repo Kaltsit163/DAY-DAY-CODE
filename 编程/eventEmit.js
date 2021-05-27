@@ -27,7 +27,7 @@ class eventEmit {
 			cb && cb(args);
 			this.off(action, fx);
 		};
-    this.on(action, fx)
+    	this.on(action, fx)
 	}
 }
 
