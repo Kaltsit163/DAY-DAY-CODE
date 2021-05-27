@@ -14,3 +14,11 @@ const flat = (arr, dep) => {
 
 console.log(flat(arr, 1));
 console.log(flat(arr, 2));
+
+
+var flat = (arr) => {
+  const fixedArr = arr.reduce((pre, cur) => {
+    return pre.concat(Array.isArray(cur) ? flat(cur, deep - 1) : cur);
+  }, []);
+  return fixedArr;
+};

@@ -21,11 +21,14 @@ function handleFetchQueue(urls, max, callback) {
           "function" === typeof callback && callback(results);
         }
       });
+
     requestsQueue.push(req);
+
     // 只要满足就继续请求
     if (requestsQueue.length <= max) {
       handleRequest(urls[++i]);
     }
   };
+
   handleRequest(urls[i]);
 }
